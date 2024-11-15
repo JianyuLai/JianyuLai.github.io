@@ -3,18 +3,18 @@ permalink: /presentations/
 title: "Presentations"
 ---
 
-<h1>Invited/Campus Talks</h1>
-1.	Milton DK, **Lai J**. February 2024. EMIT-2 Quarantine Studies, 3rd Annual CRIPT Scientific Advisory Board Meeting, Virtual Meeting. 
-2.	**Lai J**. October 2022. Exhaled Breath Aerosol Shedding of Highly Transmissible Versus Prior SARS-CoV-2 Variants. Maryland Institute of Environmental Health Seminar. College Park, MD, USA
-3.	Coleman KK, **Lai J**, Milton DK. April 2022. Evolution of SARS-CoV-2 Shedding in Exhaled Breath Aerosols. NIAID SAVE. Virtual Meeting.  
+# Invited/Campus Talks
+1. Milton DK, **Lai J**. February 2024. EMIT-2 Quarantine Studies, 3rd Annual CRIPT Scientific Advisory Board Meeting, Virtual Meeting. 
+2. **Lai J**. October 2022. Exhaled Breath Aerosol Shedding of Highly Transmissible Versus Prior SARS-CoV-2 Variants. Maryland Institute of Environmental Health Seminar. College Park, MD, USA
+3. Coleman KK, **Lai J**, Milton DK. April 2022. Evolution of SARS-CoV-2 Shedding in Exhaled Breath Aerosols. NIAID SAVE. Virtual Meeting.  
 4.	Milton DK, **Lai J**, Frieman M. October 2021. Infectious SARS-CoV-2 in exhaled aerosols and efficacy of masks during early mild infection. DMID/NIAID/NIH/DHHS SARS-CoV-2 Weekly Investigators Meeting. Virtual Meeting.
 5.	**Lai J**, Milton DK. September 2021. Results of the UMD StopCOVID study and high efficiency air sanitation with germicidal UV light for schools and conference rooms. Maryland Institute of Environmental Health Seminar. College Park, MD, USA 
 
-<h1>Conference Presentations</h1>
+# Conference Presentation
 1.	**Lai J**. September 2024. Evaluating Modes of Influenza Transmission (EMIT-2): a Controlled Human Influenza Virus Infection Transmission Trial (CHIVITT). OPTIONS XII for the Control of Influenza. Brisbane, Australia
 2.	Milton DK, **Lai J**. October 2021. Infectious SARS-CoV-2 in exhaled aerosols and efficacy of masks during early mild infection. American Association for Aerosol Research Conference. Virtual Meeting. 
 
-<h1>Poster Presentations</h1>
+# Poster Presentations
 1.	**Lai J**. October 2024. Evaluating Modes of Influenza Transmission (EMIT-2): a Controlled Human Influenza Virus Infection Transmission Trial (CHIVITT). IDWeek 2024. Los Angeles, USA
 2.	**Lai J**. July 2024. Evaluating Modes of Influenza Transmission (EMIT-2): a Controlled Human Influenza Virus Infection Transmission Trial (CHIVITT). CEIRR Annual Network Meeting 2024. NYC, USA
 3.	**Lai J**. July 2024. Influenza A (H3) Viral Aerosol Shedding in Nasally Inoculated and Naturally Infected Cases. CEIRR Annual Network Meeting 2024. NYC, USA
