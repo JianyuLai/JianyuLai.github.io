@@ -1,6 +1,7 @@
 ---
 title: "News"
 permalink: /news/
+classes: wide
 ---
 
 - **Maryland Today**, Article by Fid Thompson, [*"N95 Masks Nearly Perfect at Blocking COVID, UMD Study Shows"*](https://today.umd.edu/n95-masks-nearly-perfect-at-blocking-covid-umd-study-shows), May 31, 2024
