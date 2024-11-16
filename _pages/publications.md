@@ -5,7 +5,7 @@ classes: wide
 ---
 
 - ## Preprint
-1.  **Lai J**, Mesquita PJB de, Hong F, Ma T, Cowling BJ, Milton DK. [Influenza A (H3) viral aerosol shedding in nasally inoculated and naturally infected cases. 2024; :2024.09.09.24313370](https://www.medrxiv.org/content/10.1101/2024.09.09.24313370v2). Available at: https://www.medrxiv.org/content/10.1101/2024.09.09.24313370v2. Accessed 13 September 2024.
+1.  **Lai J**, Bueno de Mesquita PJ, Hong F, Ma T, Cowling BJ, Milton DK. [Influenza A (H3) viral aerosol shedding in nasally inoculated and naturally infected cases. 2024; :2024.09.09.24313370](https://www.medrxiv.org/content/10.1101/2024.09.09.24313370v2). Available at: https://www.medrxiv.org/content/10.1101/2024.09.09.24313370v2. Accessed 13 September 2024.
 
 - ## Peer Reviewed Publications
 1.	**Lai J**, Coleman KK, Tai S-HS, German JR, Hong FH, Albert BJ, et al. 2024. [Relative efficacy of masks and respirators as source control for viral aerosol shedding from people infected with SARS-CoV-2: a controlled human exhaled breath aerosol experimental study](https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(24)00192-0/fulltext). eBioMedicine. 104:105157.
