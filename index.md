@@ -6,10 +6,12 @@ author_profile: true  # Optional: Adds an author profile sidebar if configured.
 classes: wide
 ---
 
-I am a postdoctoral associate at the University of Maryland, College Park, with a passion for advancing the prevention and control of airborne infectious diseases. My research focuses on understanding respiratory viral infections like COVID-19 and influenza to develop innovative strategies for protecting public health. With a background in epidemiology and a commitment to interdisciplinary collaboration, I aim to contribute to a healthier and more resilient global community.
+Welcome to my website! I am Jianyu Lai, a postdoctoral associate at the University of Maryland, College Park. My work focuses on the epidemiology of airborne infectious diseases, particularly respiratory viruses like COVID-19 and influenza. With a background in epidemiology and a passion for public health, I aim to contribute to innovative solutions for reducing disease transmission.
 
-Here’s what you’ll find:
+On this site, you’ll find:
+- **About Me**: Learn more about my academic journey and research interests.  
+- **Publications**: Explore my contributions to the field of public health.  
+- **News**: See how my work has been featured in the media and recognized in public health discussions.   
 
-- [About Me](aboutme/)
-- [Publications](publications/)
-- [News](news/)
+Feel free to reach out if you’d like to connect!
+
