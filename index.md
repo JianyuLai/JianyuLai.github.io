@@ -1,25 +1,15 @@
 ---
-layout: home
+layout: single
 title: "Welcome to My Research Page"
-description: "Discover my research, publications, and resources."
-feature_row:
-  - #image_path: /assets/images/project.jpg
-    alt: "Research"
-    title: "Research Projects"
-    url: /research/
-    btn_label: "Learn More"
-    btn_class: "btn--primary"
-  - #image_path: /assets/images/pubs.jpg
-    alt: "Publications"
-    title: "Publications"
-    url: /publications/
-    btn_label: "View Publications"
-    btn_class: "btn--secondary"
-  - #image_path: /assets/images/contact.jpg
-    alt: "Repositories"
-    title: "Repositories"
-    url: /repositories/
-    btn_label: "Contact Me"
-    btn_class: "btn--secondary"
+description: "Explore my work and interests."
+author_profile: true  # Optional: Adds an author profile sidebar if configured.
 ---
 
+## Welcome to My Website
+I am a postdoctoral associate at the University of Maryland, College Park, with a passion for advancing the prevention and control of airborne infectious diseases. My research focuses on understanding respiratory viral infections like COVID-19 and influenza to develop innovative strategies for protecting public health. With a background in epidemiology and a commitment to interdisciplinary collaboration, I aim to contribute to a healthier and more resilient global community.
+
+Here’s what you’ll find:
+
+- [About Me](about/)
+- [Publications](publications/)
+- [Repositories](repositories/)
