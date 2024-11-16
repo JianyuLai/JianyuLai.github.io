@@ -9,6 +9,6 @@ I am a postdoctoral associate at the University of Maryland, College Park, with 
 
 Here’s what you’ll find:
 
-- [About Me](about/)
+- [About Me](aboutme/)
 - [Publications](publications/)
 - [Repositories](repositories/)
