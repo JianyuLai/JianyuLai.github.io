@@ -11,4 +11,4 @@ Here’s what you’ll find:
 
 - [About Me](aboutme/)
 - [Publications](publications/)
-- [Repositories](repositories/)
+- [News](news/)
