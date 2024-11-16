@@ -3,7 +3,5 @@ main:
     url: /aboutme/
   - title: "Publications"
     url: /publications/
-  - title: "Teaching"
-    url: /teaching/
-  - title: "Research Topics"
-    url: /researchtopics/
+  - title: "Repositories"
+    url: /repositories/
