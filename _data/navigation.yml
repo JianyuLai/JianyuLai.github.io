@@ -1,10 +1,9 @@
 main:
-  - title: "Background"
-    url: /background/
+  - title: "About me"
+    url: /aboutme/
   - title: "Publications"
     url: /publications/
-  - title: "Presentations"
-    url: /presentations/
   - title: "Teaching"
     url: /teaching/
-
+  - title: "Research Topics"
+    url: /researchtopics/
