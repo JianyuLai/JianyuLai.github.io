@@ -1,6 +1,6 @@
 ---
 layout: single
-Title: "Hello! I am Jianyu Lai, and welcome to my website."
+title: "Hello! I am Jianyu Lai, and welcome to my website."
 description: "Explore my work and interests."
 author_profile: False  # Optional: Adds an author profile sidebar if configured.
 classes: wide
