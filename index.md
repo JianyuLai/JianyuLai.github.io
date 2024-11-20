@@ -7,7 +7,7 @@ classes: wide
 ---
 
 
-![Profile Picture](/assets/images/background.jpg)  
+#![Profile Picture](/assets/images/background.jpg)  
 
 
 
