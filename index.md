@@ -7,9 +7,6 @@ classes: wide
 ---
 
 
-![Profile Picture](/assets/images/background.jpg)  
-
-
 
 **Hello! I am Jianyu Lai, and welcome to my website.**
 
