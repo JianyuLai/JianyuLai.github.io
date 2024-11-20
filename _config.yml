@@ -119,3 +119,9 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+scholar:
+  style: apa
+  locale: en
+  bibliography: _bibliography/references.bib
+  details_link: true
