@@ -5,8 +5,7 @@ author_profile: true
 classes: wide
 ---
 
-# Hello! I am Jianyu Lai
-Welcome to my website.
+# Welcome to my website.
 
 ## Explore My Work:
 - [**About Me**](/aboutme/): Learn more about my academic journey and research focus.  
