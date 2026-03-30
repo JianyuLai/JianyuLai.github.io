@@ -16,6 +16,7 @@ export interface Publication {
   tags: string[];
   selected: boolean;
   selectedSummary?: string;
+  selectedSummary_zh?: string;
   pressMentionIds?: string[];
   type: 'peer-reviewed' | 'other';
 }
@@ -36,6 +37,7 @@ export const publications: Publication[] = [
     tags: ['influenza', 'airborne-transmission', 'controlled-trial'],
     selected: true,
     selectedSummary: 'The EMIT-2 trial placed naturally infected influenza donors in a room with susceptible recipients under controlled ventilation. Despite confirmed infection, no transmission occurred — pointing to the critical roles of coughing behavior, donor variability, and ventilation.',
+    selectedSummary_zh: 'EMIT-2 试验将自然感染流感的供体置于受控通风环境中，与易感受体同住。尽管供体确诊感染，但未发生任何传播——这揭示了咳嗽行为、供体个体差异及通风在传播中的关键作用。',
     pressMentionIds: ['sciencedaily-2026', 'maryland-today-2026', 'kathimerini-2026'],
     type: 'peer-reviewed',
   },
@@ -84,6 +86,7 @@ export const publications: Publication[] = [
     tags: ['sars-cov-2', 'aerosols', 'masks-ppe', 'source-control'],
     selected: true,
     selectedSummary: 'A controlled exhaled breath aerosol study comparing N95 respirators, surgical masks, and no mask as source control in SARS-CoV-2-infected individuals. N95 respirators substantially outperformed surgical masks, with direct implications for infection prevention guidance.',
+    selectedSummary_zh: '一项对照呼出气体气溶胶研究，比较了 N95 呼吸器、外科口罩及不戴口罩对 SARS-CoV-2 感染者呼出气溶胶的源头控制效果。N95 呼吸器的表现显著优于外科口罩，对感染预防指南具有直接参考意义。',
     pressMentionIds: ['maryland-today-2024'],
     type: 'peer-reviewed',
   },

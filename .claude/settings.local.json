@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Read(//opt/homebrew/**)",
+      "Read(//usr/local/Cellar/**)",
+      "Read(//Users/laijianyu/.nvm/alias/**)",
+      "Bash(command -v fnm)",
+      "Bash(fnm list:*)",
+      "Read(//Users/laijianyu/Library/**)"
+    ]
+  }
+}

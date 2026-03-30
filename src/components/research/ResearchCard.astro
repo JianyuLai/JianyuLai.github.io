@@ -5,9 +5,23 @@ interface Props {
   theme: ResearchTheme;
   /** Compact variant: hide insight box, for tighter homepage grid */
   compact?: boolean;
+  lang?: 'en' | 'zh';
 }
 
-const { theme, compact = false } = Astro.props;
+const { theme, compact = false, lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+
+const title      = isZh && theme.title_zh      ? theme.title_zh      : theme.title;
+const summary    = isZh && theme.summary_zh    ? theme.summary_zh    : theme.summary;
+const keyInsight = isZh && theme.keyInsight_zh ? theme.keyInsight_zh : theme.keyInsight;
+
+const insightLabel  = isZh ? '核心发现' : 'Key insight';
+const pubCountLabel = (n: number) =>
+  isZh ? `${n} 篇论文` : `${n}${n === 1 ? ' publication' : ' publications'}`;
+const ctaLabel      = isZh ? '查看项目 →' : 'View project →';
+const projectHref   = isZh
+  ? `/ch/research/${theme.slug}/`
+  : `/research/${theme.slug}/`;
 ---
 
 <article class:list={['research-card', { 'research-card--compact': compact }]}>
@@ -16,32 +30,31 @@ const { theme, compact = false } = Astro.props;
 
   <div class="research-card-body">
 
-    <h3 class="research-card-title">{theme.title}</h3>
+    <h3 class="research-card-title">{title}</h3>
 
-    <p class="research-card-summary">{theme.summary}</p>
+    <p class="research-card-summary">{summary}</p>
 
     {!compact && (
       <div class="research-card-insight">
-        <p class="research-card-insight-label">Key insight</p>
-        <p class="research-card-insight-text">{theme.keyInsight}</p>
+        <p class="research-card-insight-label">{insightLabel}</p>
+        <p class="research-card-insight-text">{keyInsight}</p>
       </div>
     )}
 
     <div class="research-card-footer">
       {theme.relatedPubs.length > 0 && (
         <span class="research-card-pub-count">
-          {theme.relatedPubs.length}
-          {theme.relatedPubs.length === 1 ? ' publication' : ' publications'}
+          {pubCountLabel(theme.relatedPubs.length)}
         </span>
       )}
 
       {theme.hasProjectPage && (
         <a
-          href={`/research/${theme.slug}/`}
+          href={projectHref}
           class="research-card-cta"
           style={`color: ${theme.accentColor}`}
         >
-          View project →
+          {ctaLabel}
         </a>
       )}
     </div>

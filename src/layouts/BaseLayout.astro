@@ -4,18 +4,20 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  lang?: 'en' | 'zh';
 }
 
 const {
   title,
   description = 'Postdoctoral researcher studying airborne transmission of respiratory viruses at the University of Maryland.',
+  lang = 'en',
 } = Astro.props;
 
 const siteTitle = 'Jianyu Lai';
 const pageTitle  = title === siteTitle ? title : `${title} — ${siteTitle}`;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

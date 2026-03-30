@@ -1,26 +1,50 @@
 ---
-const navLinks = [
-  { label: 'Research',      href: '/research/'      },
-  { label: 'Publications',  href: '/publications/'  },
-  { label: 'News',          href: '/news/'          },
-  { label: 'Presentations', href: '/presentations/' },
-  { label: 'About',         href: '/about/'         },
-];
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+
+// Prefix for all internal hrefs
+const p = isZh ? '/ch' : '';
+
+const navLinks = isZh
+  ? [
+      { label: '研究',     href: '/ch/research/'      },
+      { label: '论文',     href: '/ch/publications/'  },
+      { label: '媒体报道', href: '/ch/news/'          },
+      { label: '学术报告', href: '/ch/presentations/' },
+      { label: '关于',     href: '/ch/about/'         },
+    ]
+  : [
+      { label: 'Research',      href: '/research/'      },
+      { label: 'Publications',  href: '/publications/'  },
+      { label: 'News',          href: '/news/'          },
+      { label: 'Presentations', href: '/presentations/' },
+      { label: 'About',         href: '/about/'         },
+    ];
 
 const currentPath = Astro.url.pathname;
 
-// Active: exact match for '/', prefix match for everything else
+// Active: exact match for root, prefix match for everything else
 function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
+  if (href === '/' || href === '/ch/') return currentPath === href;
   return currentPath.startsWith(href);
 }
+
+// Language switcher target
+const switchHref = isZh
+  ? (currentPath.replace(/^\/ch/, '') || '/')
+  : ('/ch' + currentPath);
+const switchLabel = isZh ? 'EN' : '中文';
 ---
 
 <header class="site-header">
   <nav class="container nav-inner" aria-label="Main navigation">
 
     <!-- Brand / home link -->
-    <a href="/" class="nav-brand" aria-label="Jianyu Lai — Home">
+    <a href={isZh ? '/ch/' : '/'} class="nav-brand" aria-label="Jianyu Lai — Home">
       <span class="nav-brand-name">Jianyu Lai</span>
       <span class="nav-brand-cjk" aria-hidden="true">赖建妤</span>
     </a>
@@ -41,6 +65,12 @@ function isActive(href: string): boolean {
           </a>
         </li>
       ))}
+      <li class="nav-lang-sep" aria-hidden="true"></li>
+      <li>
+        <a href={switchHref} class="nav-link nav-lang-switch" aria-label={isZh ? 'Switch to English' : '切换至中文'}>
+          {switchLabel}
+        </a>
+      </li>
     </ul>
 
   </nav>
@@ -119,6 +149,25 @@ function isActive(href: string): boolean {
   .nav-link--active {
     color: var(--color-white);
     background: rgba(255, 255, 255, 0.11);
+  }
+
+  /* Language separator + switcher */
+  .nav-lang-sep {
+    width: 1px;
+    height: 1rem;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 var(--space-1);
+  }
+
+  .nav-lang-switch {
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .nav-lang-switch:hover {
+    color: var(--color-teal-light);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   /* Skip link — becomes visible on focus */

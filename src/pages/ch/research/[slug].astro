@@ -1,0 +1,433 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import { publications } from '../../../data/publications';
+import { newsItems } from '../../../data/news';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects_zh');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props:  { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const { title, summary, theme, journal, year, status, relatedPubs, pressCoverage } = entry.data;
+
+const relatedPapersData = publications.filter(p => (relatedPubs ?? []).includes(p.id));
+const pressData         = newsItems.filter(n => (pressCoverage ?? []).includes(n.id));
+
+// Chinese theme label map
+const themeLabelZh: Record<string, string> = {
+  'airborne-transmission':  '空气传播研究',
+  'exhaled-breath-aerosols': '呼出气体气溶胶',
+  'ventilation':             '通风与室内感染风险',
+  'measurement':             '病原体检测与测量',
+};
+const themeLabel = themeLabelZh[theme as string] ?? (theme as string).replace(/-/g, ' ');
+---
+
+<PageLayout title={title} description={summary} lang="zh">
+
+  <!-- ============================================================
+       Project hero
+       ============================================================ -->
+  <div class="project-hero">
+    <div class="container">
+
+      <nav class="breadcrumb" aria-label="面包屑导航">
+        <a href="/ch/research/">研究</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{title}</span>
+      </nav>
+
+      <p class="project-theme-label">{themeLabel}</p>
+      <h1 class="project-title">{title}</h1>
+      <p class="project-summary">{summary}</p>
+
+      <div class="project-badges">
+        {status  && <span class="badge badge--status">{status}</span>}
+        {journal && <span class="badge">{journal}</span>}
+        {year    && <span class="badge">{year}</span>}
+        {pressData.length > 0 && (
+          <span class="badge badge--press">📰 {pressData.length} 篇媒体报道</span>
+        )}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Project body
+       ============================================================ -->
+  <div class="project-layout container">
+
+    <!-- Main content column -->
+    <article class="project-main">
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="project-sidebar">
+
+      <!-- Related papers -->
+      {relatedPapersData.length > 0 && (
+        <section class="sidebar-section">
+          <h3 class="sidebar-heading">相关论文</h3>
+          <div class="sidebar-pubs">
+            {relatedPapersData.map(pub => (
+              <a href={pub.url} target="_blank" rel="noopener noreferrer" class="sidebar-pub-card">
+                <span class="sidebar-pub-journal">{pub.journal} · {pub.year}</span>
+                <p class="sidebar-pub-title">{pub.title}</p>
+                <span class="sidebar-pub-link">阅读论文 →</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Press coverage -->
+      {pressData.length > 0 && (
+        <section class="sidebar-section">
+          <h3 class="sidebar-heading">媒体报道</h3>
+          <div class="sidebar-press">
+            {pressData.map(item => (
+              <a href={item.url} target="_blank" rel="noopener noreferrer" class="sidebar-press-item">
+                <span class="sidebar-press-outlet">{item.outlet}</span>
+                <p class="sidebar-press-headline">{item.headline}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Back link -->
+      <a href="/ch/research/" class="back-link">← 全部研究</a>
+
+    </aside>
+
+  </div>
+
+</PageLayout>
+
+<style>
+  .project-hero {
+    background: var(--color-navy);
+    padding: var(--space-16) 0 var(--space-12);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-teal) 0%, transparent 60%);
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb a {
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb a:hover {
+    color: var(--color-teal-light);
+    text-decoration: none;
+  }
+
+  .project-theme-label {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-teal-light);
+    margin: 0 0 var(--space-3);
+  }
+
+  .project-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 4vw, var(--text-5xl));
+    font-weight: 700;
+    color: var(--color-white);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-5);
+    max-width: 800px;
+  }
+
+  .project-summary {
+    font-size: var(--text-xl);
+    color: rgba(255, 255, 255, 0.68);
+    line-height: var(--leading-relaxed);
+    max-width: 680px;
+    margin: 0 0 var(--space-6);
+  }
+
+  .project-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.02em;
+  }
+
+  .badge--status {
+    background: rgba(42, 157, 143, 0.25);
+    border-color: rgba(42, 157, 143, 0.45);
+    color: var(--color-teal-light);
+    font-weight: 600;
+  }
+
+  .badge--press {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .project-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--space-12);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-20);
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .project-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .project-sidebar {
+      order: -1;
+    }
+  }
+
+  .prose h2 {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin: var(--space-10) 0 var(--space-3);
+    padding-bottom: 0;
+    border-bottom: none;
+    color: var(--color-navy);
+    letter-spacing: -0.01em;
+  }
+
+  .prose h2:first-child { margin-top: 0; }
+
+  .prose h3 {
+    font-size: var(--text-lg);
+    margin: var(--space-8) 0 var(--space-2);
+    color: var(--color-navy);
+  }
+
+  .prose p {
+    color: var(--color-text-secondary);
+    line-height: 1.75;
+    font-size: var(--text-base);
+    max-width: 66ch;
+  }
+
+  .prose ul, .prose ol {
+    color: var(--color-text-secondary);
+    padding-left: var(--space-5);
+  }
+
+  .prose li {
+    line-height: 1.7;
+    margin-bottom: var(--space-2);
+    font-size: var(--text-base);
+    max-width: 66ch;
+  }
+
+  .prose strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .prose h2 + * { margin-top: 0; }
+  .prose h2::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--color-border);
+    margin-bottom: var(--space-3);
+  }
+
+  .prose blockquote {
+    margin: var(--space-3) 0 var(--space-8);
+    padding: var(--space-6) var(--space-7);
+    background: rgba(26, 39, 68, 0.03);
+    border-radius: var(--radius-sm);
+    font-style: normal;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .prose blockquote p {
+    margin: 0 0 var(--space-3);
+    color: var(--color-text-secondary);
+    font-style: normal;
+    font-size: var(--text-sm);
+  }
+
+  .prose blockquote p:last-child { margin-bottom: 0; }
+
+  .prose blockquote strong {
+    color: var(--color-text);
+    font-weight: 600;
+    display: block;
+    margin-top: var(--space-3);
+  }
+
+  .prose blockquote strong:first-child { margin-top: 0; }
+
+  .project-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    position: sticky;
+    top: calc(var(--space-16) + 60px);
+  }
+
+  .sidebar-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .sidebar-heading {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding: var(--space-3) var(--space-5);
+    border-bottom: 1px solid var(--color-border-light);
+    margin: 0;
+  }
+
+  .sidebar-pubs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-pub-card {
+    display: block;
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border-light);
+    transition: background var(--transition-fast);
+  }
+
+  .sidebar-pub-card:last-child { border-bottom: none; }
+
+  .sidebar-pub-card:hover {
+    background: var(--color-surface-alt);
+    text-decoration: none;
+  }
+
+  .sidebar-pub-journal {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-teal-dim);
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-2);
+  }
+
+  .sidebar-pub-title {
+    font-size: var(--text-sm);
+    color: var(--color-navy);
+    line-height: var(--leading-snug);
+    font-weight: 500;
+    margin: 0 0 var(--space-2);
+  }
+
+  .sidebar-pub-link {
+    font-size: var(--text-xs);
+    color: var(--color-teal);
+    font-weight: 600;
+  }
+
+  .sidebar-press {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-press-item {
+    display: block;
+    padding: var(--space-4) var(--space-5);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border-light);
+    transition: background var(--transition-fast);
+  }
+
+  .sidebar-press-item:last-child { border-bottom: none; }
+
+  .sidebar-press-item:hover {
+    background: var(--color-surface-alt);
+    text-decoration: none;
+  }
+
+  .sidebar-press-outlet {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-teal-dim);
+    margin-bottom: var(--space-1);
+  }
+
+  .sidebar-press-headline {
+    font-size: var(--text-sm);
+    color: var(--color-navy);
+    line-height: var(--leading-snug);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .back-link {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-teal);
+    text-decoration: none;
+    padding: var(--space-3) 0;
+    display: inline-block;
+  }
+
+  .back-link:hover {
+    color: var(--color-teal-dim);
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,98 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import ResearchCard from '../../../components/research/ResearchCard.astro';
+import { researchThemes } from '../../../data/research';
+import { publications } from '../../../data/publications';
+
+const totalPubs = publications.filter(p => p.type === 'peer-reviewed').length;
+---
+
+<PageLayout
+  title="研究"
+  description="呼吸道病毒空气传播、呼出气体气溶胶脱落、通风与检测方法的研究。"
+  lang="zh"
+>
+
+  <!-- Page hero -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">学术研究</span>
+      <h1>研究</h1>
+      <p class="page-hero-lead">
+        我的研究涵盖受控传播试验、气溶胶脱落实验和观察性队列研究——将流行病学方法与实验室科学相结合，深入理解呼吸道病原体的传播机制。
+      </p>
+    </div>
+  </div>
+
+  <!-- Research theme grid -->
+  <section class="section">
+    <div class="container">
+      <div class="research-grid">
+        {researchThemes.map(theme => (
+          <ResearchCard theme={theme} lang="zh" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach section -->
+  <section class="section approach-section">
+    <div class="container">
+      <div class="approach-inner">
+        <p class="eyebrow">方法论</p>
+        <h2>流行病学与暴露科学的结合</h2>
+        <p>
+          我的研究位于经典流行病学、气溶胶科学与公共卫生实践的交叉点。我将随机化研究设计与最先进的生物气溶胶采样技术相结合，产出既有机理依据、又直接适用于真实干预的科学证据。
+        </p>
+        <p>
+          研究在社区环境、隔离设施和专用受控暴露环境中开展——各类研究相互补充，共同揭示传播机制的不同侧面。
+        </p>
+      </div>
+    </div>
+  </section>
+
+</PageLayout>
+
+<style>
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 760px) {
+    .research-grid { grid-template-columns: 1fr; }
+  }
+
+  .approach-section {
+    background: var(--color-surface-alt);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .approach-section h2 {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-5);
+    color: var(--color-navy);
+  }
+
+  .approach-section p {
+    font-size: var(--text-base);
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    max-width: 680px;
+    margin-bottom: var(--space-4);
+  }
+
+  .approach-inner {
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-3);
+  }
+</style>

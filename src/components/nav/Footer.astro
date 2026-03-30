@@ -1,4 +1,11 @@
 ---
+interface Props {
+  lang?: 'en' | 'zh';
+}
+
+const { lang = 'en' } = Astro.props;
+const isZh = lang === 'zh';
+
 const year = new Date().getFullYear();
 
 const externalLinks = [
@@ -11,10 +18,18 @@ const externalLinks = [
     href: 'https://www.linkedin.com/in/jianyu-lai/',
   },
   {
-    label: 'Email',
+    label: isZh ? '邮件' : 'Email',
     href: 'mailto:jlai12@umd.edu',
   },
 ];
+
+const affiliation = isZh
+  ? '博士后研究员 · Public Health AeroBiology Laboratory'
+  : 'Postdoctoral Associate · Public Health AeroBiology Laboratory';
+
+const institution = isZh
+  ? '马里兰大学帕克分校'
+  : 'University of Maryland, College Park';
 ---
 
 <footer class="site-footer">
@@ -23,8 +38,8 @@ const externalLinks = [
     <div class="footer-identity">
       <p class="footer-name">Jianyu Lai <span class="footer-cjk">赖建妤</span></p>
       <p class="footer-affiliation">
-        Postdoctoral Associate &middot; Public Health AeroBiology Laboratory<br />
-        University of Maryland, College Park
+        {affiliation}<br />
+        {institution}
       </p>
     </div>
 

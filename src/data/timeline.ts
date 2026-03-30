@@ -17,6 +17,7 @@ export interface TimelineEvent {
   title: string;
   institution?: string;
   description?: string;
+  description_zh?: string;
   url?: string;
 }
 
@@ -29,6 +30,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'Postdoctoral Associate',
     institution: 'Public Health AeroBiology Laboratory, University of Maryland',
     description: 'Continuing research on airborne pathogen transmission, exhaled breath aerosols, and infection prevention.',
+    description_zh: '持续开展空气传播病原体、呼出气体气溶胶及感染预防领域的研究。',
   },
   {
     id: 'asm-mentor-2024',
@@ -45,6 +47,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'GEOH Early Career Seed Grant (PI)',
     institution: 'University of Maryland, College Park',
     description: 'CLEAR: Communicating, Learning, and Epidemiological Application for Respiratory Prevention. $10,000.',
+    description_zh: 'CLEAR：呼吸道预防的传播、学习与流行病学应用项目。资助金额：$10,000。',
   },
   {
     id: 'phd-umd-2023',
@@ -53,6 +56,7 @@ export const timelineEvents: TimelineEvent[] = [
     title: 'PhD, Epidemiology',
     institution: 'University of Maryland, College Park',
     description: 'Dissertation: Exhaled Breath Aerosol Transmission of Acute Respiratory Infections. Advisor: Donald K. Milton, MD, DrPH.',
+    description_zh: '论文：Exhaled Breath Aerosol Transmission of Acute Respiratory Infections。导师：Donald K. Milton，MD，DrPH。',
   },
   {
     id: 'open-science-fellowship-2023',

@@ -1,0 +1,347 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { timelineSorted } from '../../data/timeline';
+
+const typeIcon: Record<string, string> = {
+  position:  '●',
+  education: '◆',
+  award:     '✦',
+  grant:     '▲',
+};
+
+const typeLabel: Record<string, string> = {
+  position:  '职位',
+  education: '教育',
+  award:     '奖项',
+  grant:     '科研基金',
+};
+---
+
+<PageLayout
+  title="关于"
+  description="关于赖建妤——公共健康气溶胶生物学与呼吸道病毒流行病学博士后研究员。"
+  lang="zh"
+>
+
+  <!-- Page hero -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">背景</span>
+      <h1>关于</h1>
+      <p class="page-hero-lead">
+        马里兰大学帕克分校 Public Health AeroBiology Laboratory 博士后研究员。
+      </p>
+    </div>
+  </div>
+
+  <div class="section container">
+    <div class="about-grid">
+
+      <!-- Bio column -->
+      <div class="about-bio">
+
+        <div class="bio-intro">
+          <img
+            src="/images/headshot.jpg"
+            alt="Jianyu Lai"
+            class="bio-headshot"
+            width="120"
+            height="120"
+          />
+          <p class="bio-text">
+            我研究呼吸道病毒通过空气传播的方式——测量感染者的呼气量，分析环境与行为如何影响传播风险，以及哪些干预措施可以阻断传播。我的研究涵盖受控人体感染试验、呼出气体气溶胶实验和社区环境中的观察性队列研究。
+          </p>
+        </div>
+
+        <section class="about-section">
+          <h2>当前职位</h2>
+          <div class="position-card">
+            <p class="position-title">博士后研究员</p>
+            <p class="position-lab">Public Health AeroBiology Laboratory (PHAB Lab)</p>
+            <p class="position-dept">Department of Global, Environmental, and Occupational Health</p>
+            <p class="position-school">School of Public Health, University of Maryland, College Park</p>
+          </div>
+        </section>
+
+        <section class="about-section">
+          <h2>教育背景</h2>
+          <ul class="education-list">
+            <li>
+              <span class="edu-degree">流行病学博士（PhD）</span>
+              <span class="edu-inst">马里兰大学帕克分校 · 2023</span>
+              <span class="edu-detail">论文：Exhaled Breath Aerosol Transmission of Acute Respiratory Infections</span>
+            </li>
+            <li>
+              <span class="edu-degree">流行病学公共卫生硕士（MPH）</span>
+              <span class="edu-inst">密歇根大学安娜堡分校</span>
+            </li>
+            <li>
+              <span class="edu-degree">健康信息学研究生证书</span>
+              <span class="edu-inst">密歇根大学安娜堡分校</span>
+            </li>
+            <li>
+              <span class="edu-degree">预防医学医学学士（BMed）</span>
+              <span class="edu-inst">中山大学</span>
+            </li>
+          </ul>
+        </section>
+
+        <section class="about-section">
+          <h2>联系方式</h2>
+          <ul class="contact-list">
+            <li>
+              <a href="mailto:jlai12@umd.edu">jlai12@umd.edu</a>
+            </li>
+            <li>
+              <a href="https://scholar.google.com/citations?user=JUXhqcEAAAAJ&hl=en" target="_blank" rel="noopener">
+                Google Scholar
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/jianyu-lai/" target="_blank" rel="noopener">
+                LinkedIn
+              </a>
+            </li>
+          </ul>
+        </section>
+
+      </div>
+
+      <!-- Timeline column -->
+      <div class="about-timeline">
+        <h2 class="timeline-heading">学术经历</h2>
+
+        {timelineSorted.length > 0 ? (
+          <ol class="timeline">
+            {timelineSorted.map(event => (
+              <li class="timeline-event" data-type={event.type}>
+                <div class="timeline-marker" title={typeLabel[event.type] ?? event.type}>
+                  {typeIcon[event.type] ?? '●'}
+                </div>
+                <div class="timeline-content">
+                  <span class="timeline-year">{event.year}</span>
+                  <p class="timeline-title">{event.title}</p>
+                  {event.institution && (
+                    <p class="timeline-institution">{event.institution}</p>
+                  )}
+                  {(event.description_zh ?? event.description) && (
+                    <p class="timeline-desc">{event.description_zh ?? event.description}</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+      </div>
+
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .bio-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+  }
+
+  .bio-headshot {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid var(--color-border);
+  }
+
+  .bio-text {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .about-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .about-section h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .position-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .position-title {
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .position-lab,
+  .position-dept,
+  .position-school {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .position-school { margin-bottom: 0; }
+
+  .education-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .education-list li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-left: var(--space-4);
+    border-left: 2px solid var(--color-border);
+  }
+
+  .edu-degree {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--color-navy);
+  }
+
+  .edu-inst {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .edu-detail {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-list a {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .timeline-heading {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.6rem;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    background: var(--color-border);
+  }
+
+  .timeline-event {
+    display: flex;
+    gap: var(--space-5);
+    padding-bottom: var(--space-8);
+    position: relative;
+  }
+
+  .timeline-event:last-child {
+    padding-bottom: 0;
+  }
+
+  .timeline-marker {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: var(--color-teal);
+    background: var(--color-cream);
+    border: 2px solid var(--color-teal);
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    margin-top: 2px;
+  }
+
+  .timeline-event[data-type="education"] .timeline-marker {
+    border-color: #3a7ca5;
+    color: #3a7ca5;
+  }
+
+  .timeline-year {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 0.06em;
+    margin-bottom: var(--space-1);
+  }
+
+  .timeline-title {
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .timeline-institution {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .timeline-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--leading-relaxed);
+  }
+</style>
