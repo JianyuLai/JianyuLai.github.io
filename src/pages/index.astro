@@ -1,12 +1,16 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import ResearchCard from '../components/research/ResearchCard.astro';
 import { researchThemes } from '../data/research';
 import { publications } from '../data/publications';
 import { newsItems } from '../data/news';
 
-const featuredPub  = publications.find(p => p.id === 'lai-2026-plos');
+const featuredPubs = publications.filter(p => p.selected);
 const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
+
+const projectLinks: Record<string, string> = {
+  'lai-2026-plos':    '/research/emit2/',
+  'lai-2024-ebiomed': '/research/aerosol-shedding/',
+};
 ---
 
 <PageLayout title="Jianyu Lai">
@@ -45,18 +49,24 @@ const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
       <header class="section-header">
         <p class="eyebrow">Research</p>
         <h2>Areas of Investigation</h2>
-        <p class="section-desc">
-          My work connects rigorous epidemiologic methods with laboratory data and
-          exposure science to understand how respiratory infections spread and how
-          transmission can be interrupted.
-        </p>
       </header>
 
-      <div class="research-grid">
+      <ul class="research-list">
         {researchThemes.map(theme => (
-          <ResearchCard theme={theme} />
+          <li class="research-list-item">
+            <div class="research-list-bar" style={`background: ${theme.accentColor}`}></div>
+            <div class="research-list-body">
+              <p class="research-list-title">
+                {theme.hasProjectPage
+                  ? <a href={`/research/${theme.slug}/`}>{theme.title}</a>
+                  : theme.title
+                }
+              </p>
+              <p class="research-list-summary">{theme.summary}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div class="section-more">
         <a href="/research/" class="btn btn-outline">All Research &rarr;</a>
@@ -66,54 +76,52 @@ const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
   </section>
 
   <!-- ============================================================
-       Featured publication
+       Featured publications
        ============================================================ -->
-  {featuredPub && (
+  {featuredPubs.length > 0 && (
     <section class="section">
       <div class="container">
 
         <header class="section-header">
-          <p class="eyebrow">Signature Work</p>
-          <h2>Featured Publication</h2>
+          <p class="eyebrow">Selected Work</p>
+          <h2>Featured Publications</h2>
         </header>
 
-        <article class="featured-pub">
-          <div class="featured-pub-meta">
-            <span class="featured-pub-journal">{featuredPub.journal}</span>
-            <span class="featured-pub-year">{featuredPub.year}</span>
-            {featuredPub.pressMentionIds && featuredPub.pressMentionIds.length > 0 && (
-              <span class="featured-pub-press-badge">
-                📰 {featuredPub.pressMentionIds.length} press mentions
-              </span>
-            )}
-          </div>
+        <div class="featured-pub-list">
+          {featuredPubs.map(pub => (
+            <article class="featured-pub">
+              <div class="featured-pub-meta">
+                <span class="featured-pub-journal">{pub.journal}</span>
+                <span class="featured-pub-year">{pub.year}</span>
+                {pub.pressMentionIds && pub.pressMentionIds.length > 0 && (
+                  <span class="featured-pub-press-badge">
+                    {pub.pressMentionIds.length} press {pub.pressMentionIds.length === 1 ? 'mention' : 'mentions'}
+                  </span>
+                )}
+              </div>
+              <h3 class="featured-pub-title">
+                <a href={pub.url} target="_blank" rel="noopener noreferrer">
+                  {pub.title}
+                </a>
+              </h3>
+              <p class="featured-pub-authors">{pub.authors}</p>
+              <div class="featured-pub-actions">
+                <a href={pub.url} target="_blank" rel="noopener noreferrer" class="featured-pub-link">
+                  Read Paper →
+                </a>
+                {projectLinks[pub.id] && (
+                  <a href={projectLinks[pub.id]} class="featured-pub-link featured-pub-link--muted">
+                    View Project →
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
 
-          <h3 class="featured-pub-title">
-            <a href={featuredPub.url} target="_blank" rel="noopener noreferrer">
-              {featuredPub.title}
-            </a>
-          </h3>
-
-          <p class="featured-pub-authors">{featuredPub.authors}</p>
-
-          {featuredPub.selectedSummary && (
-            <p class="featured-pub-summary">{featuredPub.selectedSummary}</p>
-          )}
-
-          <div class="featured-pub-actions">
-            <a
-              href={featuredPub.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn btn-primary"
-            >
-              Read Paper →
-            </a>
-            <a href="/research/emit2/" class="btn btn-outline">
-              View Project
-            </a>
-          </div>
-        </article>
+        <div class="section-more">
+          <a href="/publications/" class="btn btn-outline">All Publications &rarr;</a>
+        </div>
 
       </div>
     </section>
@@ -247,29 +255,82 @@ const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
   }
 
   /* ==============================================
-     Research card grid
+     Research list
      ============================================== */
-  .research-grid {
+  .research-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
   }
 
-  @media (max-width: 900px) {
-    .research-grid { grid-template-columns: repeat(2, 1fr); }
-  }
   @media (max-width: 600px) {
-    .research-grid { grid-template-columns: 1fr; }
+    .research-list { grid-template-columns: 1fr; }
+  }
+
+  .research-list-item {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .research-list-bar {
+    flex-shrink: 0;
+    width: 3px;
+    align-self: stretch;
+    border-radius: 2px;
+  }
+
+  .research-list-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .research-list-title {
+    font-weight: 600;
+    font-size: var(--text-base);
+    color: var(--color-navy);
+    margin: 0;
+  }
+
+  .research-list-title a {
+    color: var(--color-navy);
+    text-decoration: none;
+  }
+
+  .research-list-title a:hover {
+    color: var(--color-teal);
+  }
+
+  .research-list-summary {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin: 0;
   }
 
   /* ==============================================
-     Featured publication
+     Featured publications
      ============================================== */
+  .featured-pub-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
   .featured-pub {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .featured-pub:first-child {
+    border-top: 1px solid var(--color-border-light);
   }
 
   .featured-pub-meta {
@@ -277,37 +338,32 @@ const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
     align-items: baseline;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-bottom: var(--space-5);
-    padding-bottom: var(--space-5);
-    border-bottom: 1px solid var(--color-border-light);
   }
 
   .featured-pub-journal {
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-text-secondary);
-    letter-spacing: 0.02em;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-teal-dim);
   }
 
   .featured-pub-year {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
   }
 
   .featured-pub-press-badge {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    margin-left: auto;
   }
 
   .featured-pub-title {
-    font-family: var(--font-serif);
-    font-size: clamp(1.2rem, 2.5vw, var(--text-2xl));
-    font-weight: 700;
+    font-size: var(--text-lg);
+    font-weight: 600;
     line-height: var(--leading-snug);
     color: var(--color-navy);
-    margin: 0 0 var(--space-3);
-    letter-spacing: -0.01em;
+    margin: 0;
   }
 
   .featured-pub-title a {
@@ -317,29 +373,35 @@ const featuredNews = newsItems.filter(n => n.featured).slice(0, 2);
 
   .featured-pub-title a:hover {
     color: var(--color-teal-dim);
-    text-decoration: none;
   }
 
   .featured-pub-authors {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
-    margin: 0 0 var(--space-5);
-  }
-
-  .featured-pub-summary {
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    font-style: italic;
-    margin: 0 0 var(--space-7);
-    padding-left: var(--space-4);
-    border-left: 2px solid var(--color-border);
+    margin: 0;
   }
 
   .featured-pub-actions {
     display: flex;
-    gap: var(--space-3);
+    gap: var(--space-5);
     flex-wrap: wrap;
+    margin-top: var(--space-1);
+  }
+
+  .featured-pub-link {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-teal);
+    text-decoration: none;
+  }
+
+  .featured-pub-link:hover {
+    text-decoration: underline;
+  }
+
+  .featured-pub-link--muted {
+    color: var(--color-text-muted);
+    font-weight: 400;
   }
 
   /* ==============================================

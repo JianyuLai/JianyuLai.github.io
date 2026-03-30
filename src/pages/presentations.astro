@@ -1,14 +1,17 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import { invited, conference, posters } from '../data/presentations';
+import { presentations, invited } from '../data/presentations';
+
+const allOther = presentations
+  .filter(p => p.type !== 'invited')
+  .sort((a, b) => b.year !== a.year ? b.year - a.year : (b.month ?? 0) - (a.month ?? 0));
 
 const tabs = [
-  { id: 'invited',    label: 'Invited Talks',   items: invited,    count: invited.length    },
-  { id: 'conference', label: 'Conferences',      items: conference, count: conference.length },
-  { id: 'posters',    label: 'Posters',          items: posters,    count: posters.length    },
+  { id: 'invited',       label: 'Invited Talks',  items: invited,   count: invited.length   },
+  { id: 'presentations', label: 'Presentations',   items: allOther,  count: allOther.length  },
 ] as const;
 
-const totalCount = invited.length + conference.length + posters.length;
+const totalCount = presentations.length;
 ---
 
 <PageLayout

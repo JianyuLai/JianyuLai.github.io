@@ -2,11 +2,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 
-// https://astro.build/config
 export default defineConfig({
+  site: 'https://jianyulai.github.io',
+  base: '/academic-website/',
+
   integrations: [
     tailwind({
-      // We manage Tailwind directives ourselves in global.css
       applyBaseStyles: false,
     }),
   ],

@@ -98,14 +98,13 @@ const years = Object.keys(byYear)
     padding: var(--space-5) var(--space-6);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xs);
-    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+    border-radius: var(--radius-md);
+    transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
   }
 
   .press-card:hover {
     box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    border-color: rgba(0, 0, 0, 0.12);
   }
 
   .press-card-outlet {
