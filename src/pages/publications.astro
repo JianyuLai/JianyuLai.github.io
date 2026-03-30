@@ -1,0 +1,240 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { publications } from '../data/publications';
+
+const peerReviewed = publications.filter(p => p.type === 'peer-reviewed');
+const other        = publications.filter(p => p.type === 'other');
+const selected     = publications.filter(p => p.selected);
+---
+
+<PageLayout
+  title="Publications"
+  description="Peer-reviewed publications on airborne transmission, exhaled breath aerosols, ventilation, and measurement of respiratory viruses."
+>
+
+  <!-- Page hero -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">Scholarly Output</span>
+      <h1>Publications</h1>
+      <p class="page-hero-lead">
+        {peerReviewed.length > 0
+          ? `${peerReviewed.length} peer-reviewed articles on respiratory virus transmission, aerosol shedding, ventilation, and measurement methods.`
+          : 'Peer-reviewed articles on respiratory virus transmission, aerosol shedding, ventilation, and measurement methods.'
+        }
+      </p>
+    </div>
+  </div>
+
+  <div class="section container">
+
+    <!-- Selected publications -->
+    {selected.length > 0 ? (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Selected Publications</h2>
+        <div class="selected-list">
+          {selected.map(pub => (
+            <article class="selected-card">
+              <div class="selected-card-body">
+                <p class="pub-authors" set:html={pub.authors} />
+                <p class="pub-title">
+                  <a href={pub.url} target="_blank" rel="noopener noreferrer">
+                    {pub.title}
+                  </a>
+                </p>
+                <p class="pub-journal">
+                  <em>{pub.journal}</em>
+                  {pub.year && `, ${pub.year}`}
+                  {pub.citation && `, ${pub.citation}`}
+                </p>
+                {pub.selectedSummary && (
+                  <p class="pub-summary">{pub.selectedSummary}</p>
+                )}
+                <div class="pub-tags">
+                  {pub.tags.map(tag => (
+                    <span class="pub-tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ) : (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Selected Publications</h2>
+        <div class="placeholder-block">
+          Selected publication highlights — populated in next step
+        </div>
+      </section>
+    )}
+
+    <!-- Full peer-reviewed list -->
+    <section class="pub-section">
+      <h2 class="pub-section-title">Peer-Reviewed Publications</h2>
+
+      {peerReviewed.length > 0 ? (
+        <ol class="pub-list">
+          {peerReviewed.map(pub => (
+            <li class="pub-item">
+              <p class="pub-authors" set:html={pub.authors} />
+              <p class="pub-title">
+                <a href={pub.url} target="_blank" rel="noopener noreferrer">
+                  {pub.title}
+                </a>
+              </p>
+              <p class="pub-journal">
+                <em>{pub.journal}</em>
+                {pub.year && `. ${pub.year}`}
+                {pub.citation && `; ${pub.citation}`}.
+              </p>
+              <div class="pub-tags">
+                {pub.tags.map(tag => (
+                  <span class="pub-tag">{tag}</span>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <div class="placeholder-block">
+          Full publication list — populated in next step
+        </div>
+      )}
+    </section>
+
+    <!-- Other publications -->
+    {other.length > 0 && (
+      <section class="pub-section">
+        <h2 class="pub-section-title">Other Publications</h2>
+        <ol class="pub-list pub-list--other">
+          {other.map(pub => (
+            <li class="pub-item">
+              <p class="pub-authors" set:html={pub.authors} />
+              {pub.url ? (
+                <p class="pub-title">
+                  <a href={pub.url} target="_blank" rel="noopener noreferrer">
+                    {pub.title}
+                  </a>
+                </p>
+              ) : (
+                <p class="pub-title">{pub.title}</p>
+              )}
+              <p class="pub-journal">
+                <em>{pub.journal}</em>
+                {pub.year && `. ${pub.year}`}.
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+
+  </div>
+</PageLayout>
+
+<style>
+  .pub-section {
+    margin-bottom: var(--space-16);
+  }
+
+  .pub-section-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-teal);
+    display: inline-block;
+  }
+
+  /* Selected cards */
+  .selected-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    margin-bottom: var(--space-12);
+  }
+
+  .selected-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-left: 4px solid var(--color-teal);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .selected-card-body {
+    padding: var(--space-6);
+  }
+
+  /* Full list */
+  .pub-list {
+    list-style: decimal;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .pub-list--other {
+    gap: var(--space-4);
+  }
+
+  .pub-item {
+    line-height: var(--leading-relaxed);
+  }
+
+  .pub-authors {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+  }
+
+  .pub-title {
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .pub-title a {
+    color: var(--color-navy);
+    text-decoration: none;
+  }
+  .pub-title a:hover {
+    color: var(--color-teal);
+    text-decoration: underline;
+  }
+
+  .pub-journal {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .pub-summary {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-surface-tinted);
+    border-radius: var(--radius-sm);
+  }
+
+  .pub-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .pub-tag {
+    display: inline-block;
+    padding: 2px var(--space-2);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: lowercase;
+  }
+</style>

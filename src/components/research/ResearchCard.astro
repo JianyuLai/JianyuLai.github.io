@@ -1,0 +1,160 @@
+---
+import type { ResearchTheme } from '../../data/research';
+
+interface Props {
+  theme: ResearchTheme;
+  /** Compact variant: hide insight box, for tighter homepage grid */
+  compact?: boolean;
+}
+
+const { theme, compact = false } = Astro.props;
+---
+
+<article class:list={['research-card', { 'research-card--compact': compact }]}>
+  <!-- Color accent bar driven by theme data -->
+  <div class="research-card-bar" style={`background: ${theme.accentColor}`}></div>
+
+  <div class="research-card-body">
+
+    <h3 class="research-card-title">{theme.title}</h3>
+
+    <p class="research-card-summary">{theme.summary}</p>
+
+    {!compact && (
+      <div class="research-card-insight">
+        <p class="research-card-insight-label">Key insight</p>
+        <p class="research-card-insight-text">{theme.keyInsight}</p>
+      </div>
+    )}
+
+    <div class="research-card-footer">
+      {theme.relatedPubs.length > 0 && (
+        <span class="research-card-pub-count">
+          {theme.relatedPubs.length}
+          {theme.relatedPubs.length === 1 ? ' publication' : ' publications'}
+        </span>
+      )}
+
+      {theme.hasProjectPage && (
+        <a
+          href={`/research/${theme.slug}/`}
+          class="research-card-cta"
+          style={`color: ${theme.accentColor}`}
+        >
+          View project →
+        </a>
+      )}
+    </div>
+
+  </div>
+</article>
+
+<style>
+  .research-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+
+  .research-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(0, 0, 0, 0.12);
+  }
+
+  /* Top color bar */
+  .research-card-bar {
+    height: 3px;
+    flex-shrink: 0;
+  }
+
+  .research-card-body {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .research-card--compact .research-card-body {
+    padding: var(--space-5);
+  }
+
+  /* Title */
+  .research-card-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: var(--leading-snug);
+    margin: 0 0 var(--space-3);
+  }
+
+  .research-card--compact .research-card-title {
+    font-size: var(--text-lg);
+  }
+
+  /* Summary */
+  .research-card-summary {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-relaxed);
+    margin: 0 0 var(--space-5);
+    flex: 1;
+  }
+
+  /* Key insight */
+  .research-card-insight {
+    border-top: 1px solid var(--color-border-light);
+    padding-top: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .research-card-insight-label {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-2);
+  }
+
+  .research-card-insight-text {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* Footer row */
+  .research-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .research-card-pub-count {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .research-card-cta {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity var(--transition-fast);
+  }
+
+  .research-card-cta:hover {
+    opacity: 0.75;
+    text-decoration: none;
+  }
+</style>

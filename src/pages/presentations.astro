@@ -1,0 +1,221 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { invited, conference, posters } from '../data/presentations';
+
+const tabs = [
+  { id: 'invited',    label: 'Invited Talks',   items: invited,    count: invited.length    },
+  { id: 'conference', label: 'Conferences',      items: conference, count: conference.length },
+  { id: 'posters',    label: 'Posters',          items: posters,    count: posters.length    },
+] as const;
+
+const totalCount = invited.length + conference.length + posters.length;
+---
+
+<PageLayout
+  title="Presentations"
+  description="Invited talks, conference presentations, and poster presentations on respiratory virus transmission research."
+>
+
+  <!-- Page hero -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">Scholarly Activity</span>
+      <h1>Presentations</h1>
+      <p class="page-hero-lead">
+        {totalCount > 0
+          ? `${totalCount} presentations at international conferences, invited seminars, and research meetings.`
+          : 'Invited talks, conference presentations, and posters at international research venues.'
+        }
+      </p>
+    </div>
+  </div>
+
+  <div class="section container">
+
+    <!-- Tab navigation -->
+    <div class="tab-nav" role="tablist" aria-label="Presentation types">
+      {tabs.map((tab, i) => (
+        <button
+          role="tab"
+          class:list={['tab-btn', { 'tab-btn--active': i === 0 }]}
+          data-target={`panel-${tab.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          aria-controls={`panel-${tab.id}`}
+          id={`tab-${tab.id}`}
+        >
+          {tab.label}
+          <span class="tab-count">{tab.count}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- Tab panels -->
+    {tabs.map((tab, i) => (
+      <div
+        role="tabpanel"
+        id={`panel-${tab.id}`}
+        aria-labelledby={`tab-${tab.id}`}
+        class:list={['tab-panel', { 'tab-panel--active': i === 0 }]}
+      >
+        {tab.items.length > 0 ? (
+          <ol class="pres-list">
+            {[...tab.items]
+              .sort((a, b) => b.year - a.year || (b.month ?? 0) - (a.month ?? 0))
+              .map(p => (
+                <li class="pres-item">
+                  <div class="pres-meta">
+                    <span class="pres-year">{p.year}</span>
+                    {p.location && <span class="pres-location">{p.location}</span>}
+                  </div>
+                  <p class="pres-title">{p.title}</p>
+                  <p class="pres-event">{p.event}</p>
+                </li>
+              ))}
+          </ol>
+        ) : (
+          <div class="placeholder-block">
+            {tab.label} — populated in next step
+          </div>
+        )}
+      </div>
+    ))}
+
+  </div>
+</PageLayout>
+
+<!-- Tab switching — vanilla JS, no framework needed -->
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.tab-btn');
+  const panels  = document.querySelectorAll<HTMLElement>('.tab-panel');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target!;
+
+      buttons.forEach(b => {
+        b.classList.remove('tab-btn--active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(p => p.classList.remove('tab-panel--active'));
+
+      btn.classList.add('tab-btn--active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(targetId)!.classList.add('tab-panel--active');
+    });
+  });
+</script>
+
+<style>
+  /* Tab nav */
+  .tab-nav {
+    display: flex;
+    gap: var(--space-2);
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .tab-btn:hover {
+    color: var(--color-navy);
+  }
+
+  .tab-btn--active {
+    color: var(--color-navy);
+    border-bottom-color: var(--color-teal);
+  }
+
+  .tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 var(--space-2);
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+  }
+
+  .tab-btn--active .tab-count {
+    background: var(--color-teal);
+    border-color: var(--color-teal);
+    color: white;
+  }
+
+  /* Tab panels */
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel--active {
+    display: block;
+  }
+
+  /* Presentation list */
+  .pres-list {
+    list-style: decimal;
+    padding-left: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .pres-item {
+    line-height: var(--leading-relaxed);
+  }
+
+  .pres-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-1);
+  }
+
+  .pres-year {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-teal-dim);
+    background: var(--color-surface-tinted);
+    border: 1px solid var(--color-border);
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-sm);
+  }
+
+  .pres-location {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .pres-title {
+    font-weight: 500;
+    color: var(--color-navy);
+    margin-bottom: var(--space-1);
+  }
+
+  .pres-event {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin: 0;
+  }
+</style>

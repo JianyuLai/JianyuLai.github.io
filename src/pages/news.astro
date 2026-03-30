@@ -1,0 +1,158 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { newsItems } from '../data/news';
+
+// Group by year, newest first
+const byYear = newsItems.reduce<Record<number, typeof newsItems>>((acc, item) => {
+  (acc[item.year] ??= []).push(item);
+  return acc;
+}, {});
+
+const years = Object.keys(byYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+---
+
+<PageLayout
+  title="News"
+  description="Media coverage and press about research on airborne transmission of respiratory viruses."
+>
+
+  <!-- Page hero -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="page-hero-label">Media Coverage</span>
+      <h1>In the News</h1>
+      <p class="page-hero-lead">
+        Research on airborne virus transmission and respiratory infection prevention,
+        as covered by science journalists and news outlets worldwide.
+      </p>
+    </div>
+  </div>
+
+  <div class="section container-narrow">
+
+    {years.length > 0 ? (
+      years.map(year => (
+        <section class="year-section">
+          <h2 class="year-heading">{year}</h2>
+          <div class="press-list">
+            {byYear[year].map(item => (
+              <article class="press-card">
+                <div class="press-card-outlet">
+                  <span class="outlet-name">{item.outlet}</span>
+                  {item.outletCountry && (
+                    <span class="outlet-country">{item.outletCountry}</span>
+                  )}
+                </div>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="press-card-headline"
+                >
+                  {item.headline}
+                </a>
+                {item.context && (
+                  <p class="press-card-context">{item.context}</p>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      ))
+    ) : (
+      <div class="placeholder-block" style="margin-top: var(--space-4);">
+        Press coverage items — populated in next step
+      </div>
+    )}
+
+  </div>
+</PageLayout>
+
+<style>
+  /* Year group */
+  .year-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .year-heading {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Press cards */
+  .press-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .press-card {
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .press-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .press-card-outlet {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .outlet-name {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-teal-dim);
+  }
+
+  .outlet-country {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    background: var(--color-surface-alt);
+    padding: 1px var(--space-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+  }
+
+  .press-card-headline {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-navy);
+    text-decoration: none;
+    line-height: var(--leading-snug);
+    margin-bottom: var(--space-2);
+    transition: color var(--transition-fast);
+  }
+
+  .press-card-headline:hover {
+    color: var(--color-teal);
+    text-decoration: none;
+  }
+
+  .press-card-context {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--leading-normal);
+  }
+</style>
